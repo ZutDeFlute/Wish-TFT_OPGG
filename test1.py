@@ -48,7 +48,7 @@ def get_Summoner_info_puuid(puuid):
 	return data_json
 
 if __name__ == '__main__':
-
+    wins= 0
     my_puuid = get_Puuid_from_sn("Zut de Flûte")
     print( " my puuid is " + my_puuid)
     my_latest_games = get_Match_list(my_puuid,20)
@@ -57,11 +57,14 @@ if __name__ == '__main__':
     latest_game = get_Match(my_latest_games[0])
     #print(latest_game["metadata"]["participants"])
     #print(get_Summoner_info_puuid(my_puuid))
-    i=-1
-    for e in latest_game["metadata"]["participants"]:
-        i+=1
-        print(get_Summoner_info_puuid(e)["name"] + get_Summoner_info_puuid(e)["id"])
-        if e == my_puuid:
-            print("numero de joueur" + str(i))
-    print(i)
-    print(latest_game["info"]["participants"][i]["placement"])
+    for game in my_latest_games:
+        i=-1    
+        cgame = get_Match(game)
+        for e in cgame["metadata"]["participants"]:
+            i+=1
+            if e == my_puuid:
+                print(get_Summoner_info_puuid(e)["name"] + get_Summoner_info_puuid(e)["id"])
+                print("placement this game : " + str(cgame["info"]["participants"][i]["placement"]))
+                if cgame["info"]["participants"][i]["placement"]<=4:
+                    wins+=1
+    print("TOTAL wins : " + str(wins) + " winrate : " + str(wins/20))
