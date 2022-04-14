@@ -48,7 +48,8 @@ def get_Summoner_info_puuid(puuid):
 	return data_json
 
 def get_winrate(summoner_name, count):
-    wins= 0
+    wins = 0
+    first = 0
     my_puuid = get_Puuid_from_sn(summoner_name)
     print( " my puuid is " + my_puuid)
     my_latest_games = get_Match_list(my_puuid,count)
@@ -62,7 +63,9 @@ def get_winrate(summoner_name, count):
                 print("placement for " + get_Summoner_info_puuid(e)["name"] + " in game " + game + " : " + str(cgame["info"]["participants"][i]["placement"]))
                 if cgame["info"]["participants"][i]["placement"]<=4:
                     wins+=1
-    print("TOTAL wins : " + str(wins) + ", winrate : " + str(wins/count))
+                    if cgame["info"]["participants"][i]["placement"]==1:
+                        first+=1
+    print("TOTAL wins : " + str(wins) + ", winrate : " + str(wins/count), ", Top#1s : " + str(first))
 
 if __name__ == '__main__':
-    get_winrate("Zut de Flûte", 20)
+    get_winrate("Zut de Flûte", 50)
