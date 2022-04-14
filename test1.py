@@ -47,24 +47,22 @@ def get_Summoner_info_puuid(puuid):
 	data_json = json.loads(response.read())
 	return data_json
 
-if __name__ == '__main__':
+def get_winrate(summoner_name, count):
     wins= 0
-    my_puuid = get_Puuid_from_sn("Zut de Flûte")
+    my_puuid = get_Puuid_from_sn(summoner_name)
     print( " my puuid is " + my_puuid)
-    my_latest_games = get_Match_list(my_puuid,20)
-    #print(my_latest_games)
-    #print("my latest game is : " + my_latest_games[0])
-    latest_game = get_Match(my_latest_games[0])
-    #print(latest_game["metadata"]["participants"])
-    #print(get_Summoner_info_puuid(my_puuid))
+    my_latest_games = get_Match_list(my_puuid,count)
     for game in my_latest_games:
         i=-1    
         cgame = get_Match(game)
         for e in cgame["metadata"]["participants"]:
             i+=1
             if e == my_puuid:
-                print(get_Summoner_info_puuid(e)["name"] + get_Summoner_info_puuid(e)["id"])
-                print("placement this game : " + str(cgame["info"]["participants"][i]["placement"]))
+                #print(get_Summoner_info_puuid(e)["name"] + get_Summoner_info_puuid(e)["id"])
+                print("placement for " + get_Summoner_info_puuid(e)["name"] + " in game " + game + " : " + str(cgame["info"]["participants"][i]["placement"]))
                 if cgame["info"]["participants"][i]["placement"]<=4:
                     wins+=1
-    print("TOTAL wins : " + str(wins) + " winrate : " + str(wins/20))
+    print("TOTAL wins : " + str(wins) + ", winrate : " + str(wins/count))
+
+if __name__ == '__main__':
+    get_winrate("Zut de Flûte", 20)
