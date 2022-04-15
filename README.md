@@ -14,7 +14,7 @@ Also, your API key expires after one day, therefore you'll have to generate a ne
 
 
 notes for myself (to differenciate game types and correctly count double_up top#1s): 
-queue_id 
+queue_id (https://static.developer.riotgames.com/docs/lol/queues.json and observed data)
     1150 = double up
     1130 = hyper roll
     1100 = ranked
