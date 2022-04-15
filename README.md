@@ -11,7 +11,7 @@ Max 20 API calls every sec, 100 API calls every 2min -> limited in API calls so 
 
 ## HOW TO USE:
 ```shell
-python3 test.py api_key
+python3 test1.py api_key
 ```
 where api_key is your riot developer api key, which can be found on https://developer.riotgames.com/.
 Also, your API key expires after one day, therefore you'll have to generate a new one at least once every day.
