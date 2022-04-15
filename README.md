@@ -11,7 +11,7 @@ Max 20 API calls every sec, 100 API calls every 2min -> limited in API calls so 
 
 ## HOW TO USE:
 + python3 test.py api_key
-where api_key is your riot developer api key, which can be found on https://developer.riotgames.com/.
+...where api_key is your riot developer api key, which can be found on https://developer.riotgames.com/.
 Also, your API key expires after one day, therefore you'll have to generate a new one at least once every day.
 
 
@@ -19,7 +19,7 @@ Also, your API key expires after one day, therefore you'll have to generate a ne
 
 ## NOTES FOR MYSELF:
 queue_id (https://static.developer.riotgames.com/docs/lol/queues.json and observed data)
-...    1150 = double up
+...1150 = double up
 ...    1130 = hyper roll
 ...    1100 = ranked
 ...    1090 = normal
