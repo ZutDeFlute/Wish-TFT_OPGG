@@ -48,25 +48,57 @@ def get_Summoner_info_puuid(puuid):
 	data_json = json.loads(response.read())
 	return data_json
 
-def get_winrate(summoner_name, count):
+def get_placement_game(game, puuid):
+    i=-1
+    game_type = "" 
+    cgame = get_Match(game)
+    for e in cgame["metadata"]["participants"]:
+        i+=1
+        if e == puuid:
+            #print(get_Summoner_info_puuid(e)["name"] + get_Summoner_info_puuid(e)["id"])
+            #print("placement for " + get_Summoner_info_puuid(e)["name"] + " in game " + game + " : " + str(cgame["info"]["participants"][i]["placement"]))
+            placement = cgame["info"]["participants"][i]["placement"]
+            match str(cgame["info"]["queue_id"]):
+                case "1090":
+                    game_type = "normal"
+                case "1100":
+                    game_type = "ranked"
+                case "1110":
+                    game_type = "tutorial"
+                case "1111":
+                    game_type = "test"
+                case "1130":
+                    game_type = "hyper_roll"
+                case "1150":
+                    game_type = "double_up"
+    return(game_type, placement)   
+
+def get_winrate(summoner_name, count, match_type):
     wins = 0
     first = 0
+    games_count = 0
     my_puuid = get_Puuid_from_sn(summoner_name)
     print( " my puuid is " + my_puuid)
     my_latest_games = get_Match_list(my_puuid,count)
-    for game in my_latest_games:
-        i=-1    
-        cgame = get_Match(game)
-        for e in cgame["metadata"]["participants"]:
-            i+=1
-            if e == my_puuid:
-                #print(get_Summoner_info_puuid(e)["name"] + get_Summoner_info_puuid(e)["id"])
-                print("placement for " + get_Summoner_info_puuid(e)["name"] + " in game " + game + " : " + str(cgame["info"]["participants"][i]["placement"]))
-                if cgame["info"]["participants"][i]["placement"]<=4:
-                    wins+=1
-                    if cgame["info"]["participants"][i]["placement"]==1:
+    for game in my_latest_games: 
+        rslt = get_placement_game(game, my_puuid)
+        print(rslt)
+        if match_type==rslt[0] or match_type=="any":
+            games_count+=1
+            if rslt[1]<=4:
+                wins+=1
+                if rslt[0]=="double_up":
+                    if rslt[1]<=2:
                         first+=1
-    print("TOTAL wins : " + str(wins) + ", winrate : " + str(wins/count), ", Top#1s : " + str(first))
+                        print(rslt,"double up victory")
+                else:
+                    if rslt[1]==1:
+                        first+=1
+                        print(rslt,"regular victory")
+    print("In the last ",count," games you played, ",games_count, " matched the game type you indicated.")
+    print("Wins: ", wins, "  Winrate: ", wins/games_count, "  Top#1s: ", first)
+                    
+
 
 if __name__ == '__main__':
-    get_winrate("Zut de Flûte", 50)
+    get_winrate("Zut de Flûte", 20, "any")
