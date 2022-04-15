@@ -3,8 +3,9 @@ from requests.auth import HTTPBasicAuth
 import requests
 from urllib.request import urlopen
 import json
+import sys
 
-auth = "api_key=" + "RGAPI-0199010f-6df5-4602-af79-8d08ece8da26"
+auth = "api_key=" + sys.argv[1]
 
 def get_Summoner_info_sn(summoner_name):
     url = "https://euw1.api.riotgames.com/tft/summoner/v1/summoners/by-name/" + summoner_name + "?" + auth
