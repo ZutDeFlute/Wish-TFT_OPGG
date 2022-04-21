@@ -143,7 +143,7 @@ def get_winrate_list(summoner_name_list, count, match_type):
 
     for game in my_latest_games: 
         rslt = get_placement_game_list(game, my_puuid_list)
-        print(rslt)
+        #print(rslt)
         if match_type==rslt[0] or match_type=="any":
             games_count+=1
             if rslt[3] in output[:,0]:
@@ -204,6 +204,6 @@ def val_p2(n):
 if __name__ == '__main__':
     #get_winrate("Zut de Flûte", 20, "any")
     list = ("Zut de Flûte","APL Cha0s", "Apl Buble", "Kookie10","APL TasDeadCa","Rosette")
-    output = get_winrate_list(list, 10, "any")
-    print(output)
+    output = get_winrate_list(list, 70, "any")
+    #print(output)
     show_names_winrates(list, output)
