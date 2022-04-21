@@ -168,10 +168,42 @@ def get_winrate_list(summoner_name_list, count, match_type):
                         #print(rslt,"regular victory")
     print("In the last ",count," games you played, ",games_count, " matched the game type you indicated.")
     print("Wins: ", wins, "  Winrate: ", wins/games_count, "  Top#1s: ", first)
-    print(output)   
+    return(output) 
 
+def decompo_p2(n):
+    L=[]
+    p=1
+    while n:
+        q=n//2
+        r=n%2
+        if r:
+            L.append(p)
+        p*=2
+        n=q
+    return(L)
+
+def show_names_winrates(list, output):
+    i = 0
+    for e in output[:,0]:
+        n = e
+        L = decompo_p2(n)
+        friends=[]
+        for a in L:
+            friends.append(list[val_p2(a)])
+        print("With", friends, ", you played", str(int(output[i,1])), "games, won", str(int(output[i,2])), "of them, and did", str(int(output[i,3])), "Top#1s. Winrate =", str((output[i,2]/output[i,1])*100),"%")
+        i+=1
+def val_p2(n):
+    val = 0
+    if n==0:
+        return 0
+    while n >= 2:
+        val+=1
+        n=n/2
+    return val
 
 if __name__ == '__main__':
     #get_winrate("Zut de Flûte", 20, "any")
     list = ("Zut de Flûte","APL Cha0s", "Apl Buble", "Kookie10","APL TasDeadCa","Rosette")
-    get_winrate_list(list, 10, "any")
+    output = get_winrate_list(list, 10, "any")
+    print(output)
+    show_names_winrates(list, output)
