@@ -11,7 +11,6 @@ auth = "api_key=" + sys.argv[1]
 def get_Summoner_info_sn(summoner_name):
     url = "https://euw1.api.riotgames.com/tft/summoner/v1/summoners/by-name/" + summoner_name + "?" + auth
     response = requests.get(url)
-    #print(url + summoner_name + auth)
     return response.text
 
 def parser1(text):
@@ -31,7 +30,6 @@ def get_Puuid_from_sn(summoner_name):
 
 def get_Match_list(puuid,count):
 	url = "https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/"+ puuid + "/ids?count="+ str(count) +"&" + auth
-	#print(url)
 	response = urlopen(url)
 	data_json = json.loads(response.read())
 	return data_json
@@ -56,8 +54,6 @@ def get_placement_game(game, puuid):
     for e in cgame["metadata"]["participants"]:
         i+=1
         if e == puuid:
-            #print(get_Summoner_info_puuid(e)["name"] + get_Summoner_info_puuid(e)["id"])
-            #print("placement for " + get_Summoner_info_puuid(e)["name"] + " in game " + game + " : " + str(cgame["info"]["participants"][i]["placement"]))
             placement = cgame["info"]["participants"][i]["placement"]
             match str(cgame["info"]["queue_id"]):
                 case "1090":
@@ -86,8 +82,6 @@ def get_placement_game_list(game, puuid_list):
             friends.append(get_Summoner_info_puuid(e)["name"])
             val_friends+= 2**(puuid_list.index(e))
         if e == puuid_list[0]:
-            #print(get_Summoner_info_puuid(e)["name"] + get_Summoner_info_puuid(e)["id"])
-            #print("placement for " + get_Summoner_info_puuid(e)["name"] + " in game " + game + " : " + str(cgame["info"]["participants"][i]["placement"]))
             placement = cgame["info"]["participants"][i]["placement"]
             match str(cgame["info"]["queue_id"]):
                 case "1090":
@@ -137,13 +131,11 @@ def get_winrate_list(summoner_name_list, count, match_type):
     my_puuid_list = []
     for summoner_name in summoner_name_list:
         my_puuid_list.append(get_Puuid_from_sn(summoner_name))
-    #print(my_puuid_list)
 
     my_latest_games = get_Match_list(my_puuid_list[0],count)
 
     for game in my_latest_games: 
         rslt = get_placement_game_list(game, my_puuid_list)
-        #print(rslt)
         if match_type==rslt[0] or match_type=="any":
             games_count+=1
             if rslt[3] in output[:,0]:
@@ -192,6 +184,7 @@ def show_names_winrates(list, output):
             friends.append(list[val_p2(a)])
         print("With", friends, ", you played", str(int(output[i,1])), "games, won", str(int(output[i,2])), "of them, and did", str(int(output[i,3])), "Top#1s. Winrate =", str((output[i,2]/output[i,1])*100),"%")
         i+=1
+
 def val_p2(n):
     val = 0
     if n==0:
@@ -204,16 +197,14 @@ def val_p2(n):
 if __name__ == '__main__':
     go_on=True
     count = int(input("Enter number of games to take into account: "))
-    liste = list()
+    list = list()
     txt = str(input("Your summoner name: "))
     while go_on==True:
-        liste.append(txt)
-        txt = str(input("Enter a friend's summoner namer, type \"end_list\" to finish: "))
-        if txt == "end_list":
+        list.append(txt)
+        txt = str(input("Enter a friend's summoner namer, enter to finish: "))
+        if txt == "":
             go_on = False 
     gametype = str(input("Game type (any,normal,ranked,double_up,hyper_roll,tutorial,test): "))
-    #get_winrate("Zut de Flûte", 20, "any")
-    list = ("Zut de Flûte","APL Cha0s", "Apl Buble", "Kookie10","APL TasDeadCa","Rosette")
-    output = get_winrate_list(liste, count, gametype)
-    #print(output)
+    
+    output = get_winrate_list(list, count, gametype)
     show_names_winrates(list, output)
