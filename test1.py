@@ -202,8 +202,18 @@ def val_p2(n):
     return val
 
 if __name__ == '__main__':
+    go_on=True
+    count = int(input("Enter number of games to take into account: "))
+    liste = list()
+    txt = str(input("Your summoner name: "))
+    while go_on==True:
+        liste.append(txt)
+        txt = str(input("Enter a friend's summoner namer, type \"end_list\" to finish: "))
+        if txt == "end_list":
+            go_on = False 
+    gametype = str(input("Game type (any,normal,ranked,double_up,hyper_roll,tutorial,test): "))
     #get_winrate("Zut de Flûte", 20, "any")
     list = ("Zut de Flûte","APL Cha0s", "Apl Buble", "Kookie10","APL TasDeadCa","Rosette")
-    output = get_winrate_list(list, 70, "any")
+    output = get_winrate_list(liste, count, gametype)
     #print(output)
     show_names_winrates(list, output)
