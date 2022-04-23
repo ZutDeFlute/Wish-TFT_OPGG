@@ -1,4 +1,4 @@
-# projet_0
+# Wish TFT_OPGG
 
 ## CODE PURPOSE:
 Return your TFT winrate alone and with specified friend groups. (c'est un opgg tft Wish) 
