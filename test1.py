@@ -208,3 +208,4 @@ if __name__ == '__main__':
     
     output = get_winrate_list(list, count, gametype)
     show_names_winrates(list, output)
+    
